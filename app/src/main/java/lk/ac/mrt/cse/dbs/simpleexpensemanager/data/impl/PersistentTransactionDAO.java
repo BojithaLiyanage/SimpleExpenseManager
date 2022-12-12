@@ -51,7 +51,7 @@ public class PersistentTransactionDAO implements TransactionDAO {
         String queryString = "SELECT * FROM " + helper.TRANSACTION_TABLE;
         Cursor c = db.rawQuery(queryString,null);
         if (c.moveToFirst()){
-            while(c.moveToNext()) {
+           do {
                 String acc_No = c.getString(c.getColumnIndex(helper.COL_ACCOUNT_NO));
                 String type = c.getString(c.getColumnIndex(helper.COL_TYPE));
                 ExpenseType expense_type;
@@ -71,7 +71,7 @@ public class PersistentTransactionDAO implements TransactionDAO {
                 double amount = c.getDouble(c.getColumnIndex(helper.COL_AMOUNT));
 
                 return_list.add(new Transaction(date, acc_No, expense_type, amount));
-            }
+            } while(c.moveToNext());
         }
 
         // close the cursor
@@ -93,7 +93,7 @@ public class PersistentTransactionDAO implements TransactionDAO {
                         " DESC LIMIT " + limit;
         Cursor c = db.rawQuery(str4,null);
         if (c.moveToFirst()){
-            while(c.moveToNext()) {
+           do {
                 String acc_no = c.getString(c.getColumnIndex(helper.COL_ACCOUNT_NO));
                 String type = c.getString(c.getColumnIndex(helper.COL_TYPE));
                 ExpenseType expenseType;
@@ -114,7 +114,7 @@ public class PersistentTransactionDAO implements TransactionDAO {
 
                 return_list.add(new Transaction(date, acc_no, expenseType, amt));
 
-            }
+            } while(c.moveToNext());
         }
         // close the cursor
         c.close();

@@ -36,12 +36,12 @@ public class PersistentAccountDAO implements AccountDAO {
 
         if (c.moveToFirst())
         {
-            while(c.moveToNext())
+            do
             {
                 String new_acc_no = c.getString(c.getColumnIndex(helper.COL_ACCOUNT_NO));
                 // add acc_num to the List
                 acc_no_list.add(new_acc_no);
-            };
+            }while(c.moveToNext());
         }
         else
         {
@@ -69,7 +69,7 @@ public class PersistentAccountDAO implements AccountDAO {
         Cursor c1 = db.rawQuery(queryString, null);
 
         if (c1.moveToFirst()){
-            while(c1.moveToNext()) {
+            do {
                 String acc_no = c1.getString(c1.getColumnIndex(helper.COL_ACCOUNT_NO));
                 String bank_name = c1.getString(c1.getColumnIndex(helper.COL_BANK));
                 String accHolder = c1.getString(c1.getColumnIndex(helper.COL_ACCOUNT_HOLDER));
@@ -77,7 +77,7 @@ public class PersistentAccountDAO implements AccountDAO {
                 // create an new account
                 Account new_acc = new Account(acc_no, bank_name, accHolder, current_balance);
                 return_list.add(new_acc);
-            }
+            }while(c1.moveToNext());
         }
         else{
             System.out.println("No accounts added");
